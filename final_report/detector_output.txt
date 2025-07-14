@@ -1,0 +1,47 @@
+[20:17:19] 🚀 Starting vulnerability scan...
+[20:17:19] 🎯 Scanning VulnBank at http://localhost:3001
+[20:17:19] 🔍 Testing Race Conditions...
+[20:17:19] 🚨 RACE CONDITION DETECTED! Balance inconsistency: 600 vs expected -1000
+[20:17:19] 🎯 Scanning VulnAuth at http://localhost:3002
+[20:17:19] 🔍 Testing Global State Pollution...
+[20:17:19] 🚨 GLOBAL STATE POLLUTION DETECTED! Evidence: ['User admin got profile of user1']
+[20:17:19] 🎯 Scanning VulnShop at http://localhost:3003
+[20:17:19] 🔍 Testing TOCTOU Vulnerabilities...
+[20:17:20] 🚨 TOCTOU VULNERABILITY DETECTED! Single-use coupon applied 5 times
+
+============================================================
+🛡️  VULNERABILITY SCAN REPORT
+============================================================
+📊 Summary: 3 vulnerabilities found
+   🔴 Critical: 1
+   🟠 High: 2
+   📡 APIs scanned: 3
+
+📋 Detailed Results:
+
+🎯 VulnBank (http://localhost:3001)
+   🚨 VULNERABLE Race Condition [HIGH]
+     • initial_balance: 1000
+     • final_balance: 600
+     • expected_balance: -1000
+     • successful_transfers: 5
+     • inconsistency: True
+     • concurrent_requests: 5
+     • timing_window: 0.16640806198120117
+
+🎯 VulnAuth (http://localhost:3002)
+   🚨 VULNERABLE Global State Pollution [CRITICAL]
+     • concurrent_logins: 2
+     • state_confusion: True
+
+🎯 VulnShop (http://localhost:3003)
+   🚨 VULNERABLE TOCTOU (Time-of-Check-Time-of-Use) [HIGH]
+     • initial_price: 100
+     • final_price: 32.768
+     • successful_applications: 5
+     • total_discounts_applied: 5
+     • single_use_coupon_bypassed: True
+     • price_reduction: 67.232
+
+📄 Full report saved to: vulnerability_report.json
+============================================================

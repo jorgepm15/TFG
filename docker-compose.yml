@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  vulnbank:
+    build: 
+      context: ./vulnbank
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+      - PORT=3001
+    volumes:
+      - ./vulnbank:/app
+      - /app/node_modules
+    command: npm start
+
+  vulnauth:
+    build:
+      context: ./vulnauth
+      dockerfile: Dockerfile  
+    ports:
+      - "3002:3002"
+    environment:
+      - NODE_ENV=development
+      - PORT=3002
+    volumes:
+      - ./vulnauth:/app
+      - /app/node_modules
+    command: npm start
+
+  vulnshop:
+    build:
+      context: ./vulnshop
+      dockerfile: Dockerfile
+    ports:
+      - "3003:3003"
+    environment:
+      - NODE_ENV=development
+      - PORT=3003
+    volumes:
+      - ./vulnshop:/app
+      - /app/node_modules
+    command: npm start
+    depends_on:
+      - vulnbank
+      - vulnauth
+
+networks:
+  default:
+    name: vuln-apis-network
